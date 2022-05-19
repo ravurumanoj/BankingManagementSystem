@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet {
      * Default constructor. 
      */
     public LoginServlet() {
+    	super();
         // TODO Auto-generated constructor stub
     }
 

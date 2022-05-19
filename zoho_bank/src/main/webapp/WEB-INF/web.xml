@@ -12,6 +12,5 @@
   		<servlet-name>servletlogin</servlet-name>
   		<url-pattern>/LoginPage</url-pattern>
   	</servlet-mapping>
-  
 </web-app>
 
