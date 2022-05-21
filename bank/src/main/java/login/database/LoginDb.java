@@ -35,7 +35,48 @@ public class LoginDb {
 		}
 		return con;
 	}
-	
+	public int insert(LoginBean signupbean)
+	{		
+		loadDriver(dbDriver);
+		Connection con = getConnection();
+		String insert="INSERT INTO login"+"(username,password,contactno) VALUES"+"(?,?,?);";
+		int result=0;
+		PreparedStatement ps;
+		try {
+			ps = con.prepareStatement(insert);
+			ps.setString(1, signupbean.getUsername());
+	        ps.setString(2, signupbean.getPassword());
+	        ps.setString(3, signupbean.getContactno());
+	        
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+		return result;
+	}
+	public boolean validatetransfer(LoginBean loginBean)
+	{
+		boolean status = false;
+		
+		loadDriver(dbDriver);
+		Connection con = getConnection();
+		
+		String sql = "select * from login where username = ?";
+		PreparedStatement ps;
+		
+		try {
+		ps = con.prepareStatement(sql);
+		ps.setString(1, loginBean.getUsername());
+		ResultSet rs = ps.executeQuery();
+		status = rs.next();
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return status;
+	}
 	public boolean validate(LoginBean loginBean)
 	{
 		boolean status = false;
@@ -45,6 +86,7 @@ public class LoginDb {
 		
 		String sql = "select * from login where username = ? and password =?";
 		PreparedStatement ps;
+		
 		try {
 		ps = con.prepareStatement(sql);
 		ps.setString(1, loginBean.getUsername());

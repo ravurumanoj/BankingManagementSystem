@@ -43,7 +43,7 @@
 </head>
 <body>
 	<b>Balance: </b>
-	<form action="transfer" method="post">
+	<form action="TransferServlet" method="post">
 	<h3>Transfer Money</h3>
 	<table>
 	<tr><td>Account Username: </td><td><input type="text" name="username" placeholder="Enter Username" required></td></tr>

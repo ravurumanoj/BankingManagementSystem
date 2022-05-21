@@ -11,16 +11,15 @@ import login.database.LoginDb;
 import java.io.IOException;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class TransferServlet
  */
-//@WebServlet("/Login")
-public class LoginServlet extends HttpServlet {
+public class TransferServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public TransferServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,19 +38,18 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String username= request.getParameter("username");
-		String password= request.getParameter("password");
-		
+		String amount=request.getParameter("amount");
 		LoginBean loginbean=new LoginBean();
 		loginbean.setUsername(username);
-		loginbean.setPassword(password);
 		
 		LoginDb logindb=new LoginDb();
 		
-		if(logindb.validate(loginbean)) {
-			response.sendRedirect("LoginSuccess.jsp");
+		if(logindb.validatetransfer(loginbean)) {
+			System.out.println(amount+"AAAAAAAA");
 		}
 		else {
-			response.sendRedirect("LoginPage.jsp");
+//			response.sendRedirect("LoginPage.jsp");
+			System.out.println(amount+"bbbbb");
 		}
 	}
 

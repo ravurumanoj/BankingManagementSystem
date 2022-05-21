@@ -3,6 +3,13 @@ package login.bean;
 public class LoginBean {
 	private String username;
 	private String password;
+	private String contactno;
+	public String getContactno() {
+		return contactno;
+	}
+	public void setContactno(String contactno) {
+		this.contactno = contactno;
+	}
 	public String getUsername() {
 		return username;
 	}

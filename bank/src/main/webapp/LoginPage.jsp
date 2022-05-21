@@ -28,9 +28,9 @@
 	}
 	form{
 		position:absolute;
-		margin: 0% 35%;
+		margin: 0% 30% 0% 34%;
 		/* padding:40px 30px 40px 30px; */
-		padding:5% 2%;
+		padding:4% 3%;
 		background-color:white;
 	}
 </style>
@@ -43,6 +43,8 @@
 		<tr><td>Enter Username: </td><td><input type="text" name="username" placeholder="Enter your Username" required></td></tr>
 		<tr><td>Enter Password: </td><td><input type="password" name="password" placeholder="Enter your Password" required></td></tr>
 		<tr><td></td><td><input type="submit" value="Login"></td></tr>
+		<tr><td colspan=2>Don't have an account</td></tr>
+		<tr><td colspan=2><a href="SignUp.jsp">Sign Up</a></td></tr>
 		</table>
 		</form>
 	</div>

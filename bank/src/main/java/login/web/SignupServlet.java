@@ -11,16 +11,15 @@ import login.database.LoginDb;
 import java.io.IOException;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class SignupServlet
  */
-//@WebServlet("/Login")
-public class LoginServlet extends HttpServlet {
+public class SignupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public SignupServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,19 +39,17 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String username= request.getParameter("username");
 		String password= request.getParameter("password");
+		String contactno= request.getParameter("contactno");
 		
-		LoginBean loginbean=new LoginBean();
-		loginbean.setUsername(username);
-		loginbean.setPassword(password);
+		LoginBean signupbean=new LoginBean();
+		signupbean.setUsername(username);
+		signupbean.setPassword(password);
+		signupbean.setContactno(contactno);
 		
 		LoginDb logindb=new LoginDb();
-		
-		if(logindb.validate(loginbean)) {
-			response.sendRedirect("LoginSuccess.jsp");
-		}
-		else {
-			response.sendRedirect("LoginPage.jsp");
-		}
+		logindb.insert(signupbean);
+		response.sendRedirect("SignUp.jsp");
+
 	}
 
 }
