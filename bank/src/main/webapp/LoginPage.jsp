@@ -38,9 +38,9 @@
 <body>
 	<div style="text-align:center">
 		<div class="h"><h1><span style="color:#e83b3a">Z</span><span style="color:#26a149">O</span><span style="color:#0378b8">H</span><span style="color:#fede0a">O</span> Online Banking</h1></div>
-		<form action="LoginServlet" method="post" >
+		<form action="Login" method="post" >
 		<table>
-		<tr><td>Enter Username: </td><td><input type="text" name="uname" placeholder="Enter your Username" required></td></tr>
+		<tr><td>Enter Username: </td><td><input type="text" name="username" placeholder="Enter your Username" required></td></tr>
 		<tr><td>Enter Password: </td><td><input type="password" name="password" placeholder="Enter your Password" required></td></tr>
 		<tr><td></td><td><input type="submit" value="Login"></td></tr>
 		</table>

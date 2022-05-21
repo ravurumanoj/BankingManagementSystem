@@ -9,10 +9,10 @@ import java.sql.SQLException;
 import login.bean.LoginBean;
 
 public class LoginDb {
-	private String dbUrl="jdbc:mysql://localhost:3306/login";
-	private String dbUname="root";
-	private String dbPassword="manoj123";
-	private String dbDriver="com.mysql.cj.jdbc.Driver";
+	private String dbUrl = "jdbc:mysql://localhost:3306/login";
+	private String dbUname = "root";
+	private String dbPassword = "manoj123";
+	private String dbDriver = "com.mysql.cj.jdbc.Driver";
 	
 	public void loadDriver(String dbDriver)
 	{
@@ -43,7 +43,7 @@ public class LoginDb {
 		loadDriver(dbDriver);
 		Connection con = getConnection();
 		
-		String sql = "select * from login_details where username = ? and password =?";
+		String sql = "select * from login where username = ? and password =?";
 		PreparedStatement ps;
 		try {
 		ps = con.prepareStatement(sql);
@@ -58,5 +58,4 @@ public class LoginDb {
 		}
 		return status;
 	}
-
 }
