@@ -37,18 +37,27 @@ public class TransferServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String username= request.getParameter("username");
-		String amount=request.getParameter("amount");
-		LoginBean loginbean=new LoginBean();
-		loginbean.setUsername(username);
+		String rusername= request.getParameter("rusername");
+		Float amount=Float.parseFloat(request.getParameter("amount"));
 		
+		LoginServlet obj = new LoginServlet();
+//		System.out.println(obj.username+"456");
+		String username=obj.username;
+
+	
+		LoginBean loginbean=new LoginBean();
+		loginbean.setRusername(rusername);
+		loginbean.setUsername(username);
+		loginbean.setAmount(amount);
+
 		LoginDb logindb=new LoginDb();
 		
-		if(logindb.validatetransfer(loginbean)) {
-			System.out.println(amount+"AAAAAAAA");
+		if(logindb.validatetransfer(loginbean)){
+			logindb.addAmount(loginbean);
+//			System.out.println(amount+loginbean.getUbalance());
 		}
 		else {
-//			response.sendRedirect("LoginPage.jsp");
+			
 			System.out.println(amount+"bbbbb");
 		}
 	}

@@ -46,7 +46,7 @@
 	<form action="TransferServlet" method="post">
 	<h3>Transfer Money</h3>
 	<table>
-	<tr><td>Account Username: </td><td><input type="text" name="username" placeholder="Enter Username" required></td></tr>
+	<tr><td>Account Username: </td><td><input type="text" name="rusername" placeholder="Enter Username" required></td></tr>
 	<tr><td>Amount: </td><td><input type="number" name="amount" placeholder="Enter Amount" required></td></tr>
 	<tr><td></td><td><input type="submit" value="Transfer"></td></tr>
 	</table>
