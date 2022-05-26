@@ -8,8 +8,8 @@
 <style>
 	body{
 		background-color:#f0f0f0;
-		margin:10px;
-		padding:10px;
+	/*	margin:10px; */
+	/*	padding:10px; */
 	}
 	input{
 		padding:10px;
@@ -39,16 +39,38 @@
 		text-align:center;
 		
 	}
+	button{
+		position:absolute;
+		margin: 1% 0% 1% 80%;
+		padding: 7px 15px;
+		background-color:#159aff;
+		font-size:15px;
+		color:white;
+		cursor:pointer;
+		border:none;
+	}
+
 </style>
 </head>
 <body>
-	<b>Balance: ${message}</b>
-	
+	<%
+		String username = null;
+		Cookie[] cookies = request.getCookies();
+		if(cookies !=null){
+			for(Cookie cookie : cookies){
+				if(cookie.getName().equals("username")) username = cookie.getValue();
+			}
+		}
+		if(username == null) response.sendRedirect("LoginPage.jsp");
+	%>
+	<h3>Hi <%=username%>, Welcome To ZOHO Bank</h3>
+	<b>Balance: ${sessionScope['message']}</b>
+	<a href="./LoginPage.jsp"><button>Sign Out</button></a>
 	<form action="TransferServlet" method="post">
 	<h3>Transfer Money</h3>
 	<table>
 	<tr><td>Account Username: </td><td><input type="text" name="rusername" placeholder="Enter Username" required></td></tr>
-	<tr><td>Amount: </td><td><input type="number" name="amount" placeholder="Enter Amount" required></td></tr>
+	<tr><td>Amount: </td><td><input type="number" name="amount" placeholder="Enter Amount" min="0" required></td></tr>
 	<tr><td></td><td><input type="submit" value="Transfer"></td></tr>
 	</table>
 	</form>

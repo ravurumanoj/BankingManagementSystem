@@ -1,15 +1,18 @@
 package login.web;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 //import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import login.bean.LoginBean;
 import login.database.LoginDb;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.sql.SQLException;
 
 /**
  * Servlet implementation class TransferServlet
@@ -49,19 +52,39 @@ public class TransferServlet extends HttpServlet {
 		loginbean.setRusername(rusername);
 		loginbean.setUsername(username);
 		loginbean.setAmount(amount);
-
+		
+		Cookie c=new Cookie("rusername",rusername);
+		Cookie c2=new Cookie("username",username);
+		Cookie c3=new Cookie("amount",amount+"");
+		response.addCookie(c);
+		response.addCookie(c2);
+		response.addCookie(c3);
+//		String u = null;
+//		Cookie cookies[]=request.getCookies();
+//		for(Cookie co:cookies)
+//		{
+//			if(co.getName().equals("c"))
+//				u=co.getValue();
+//		}
+//		System.out.println(u);
 		LoginDb logindb=new LoginDb();
 		
 		if(logindb.validatetransfer(loginbean)){
-			logindb.addAmount(loginbean);
-			Float message = logindb.ubalance(loginbean);
-			request.getSession().setAttribute("message", message);
-			response.sendRedirect("LoginSuccess.jsp");
-//			System.out.println(amount+loginbean.getUbalance());
+			try {
+				logindb.addAmount(loginbean);
+				Float message = logindb.ubalance(loginbean);
+				HttpSession session=request.getSession();	
+				session.setAttribute("message", message);
+				response.sendRedirect("LoginSuccess.jsp");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		else {
-			
-			System.out.println(amount+"bbbbb");
+			SQLException sqlException = new SQLException();
+			sqlException.printStackTrace();
 		}
 	}
 

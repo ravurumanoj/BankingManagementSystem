@@ -1,6 +1,7 @@
 package login.web;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 //import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,7 +48,16 @@ public class SignupServlet extends HttpServlet {
 		signupbean.setContactno(contactno);
 		
 		LoginDb logindb=new LoginDb();
+		
+		password=logindb.hash(signupbean);
+		signupbean.setPassword(password);
 		logindb.insert(signupbean);
+		
+		Cookie c=new Cookie("username",username);
+		Cookie c2=new Cookie("contactno",contactno);
+		response.addCookie(c);
+		response.addCookie(c2);
+		
 		response.sendRedirect("SignUp.jsp");
 
 	}

@@ -1,16 +1,18 @@
 package login.web;
 
-import jakarta.servlet.RequestDispatcher;
+//import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 //import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import login.bean.LoginBean;
 import login.database.LoginDb;
 
 import java.io.IOException;
-import java.net.URLEncoder;
+//import java.net.URLEncoder;
 
 /**
  * Servlet implementation class LoginServlet
@@ -52,8 +54,17 @@ public class LoginServlet extends HttpServlet {
 		
 		LoginDb logindb=new LoginDb();
 		Float message = logindb.ubalance(loginbean);
+		password=logindb.hash(loginbean);
+		loginbean.setPassword(password);
 //		System.out.println(message);
-		request.getSession().setAttribute("message", message);
+		HttpSession session=request.getSession();
+		session.setAttribute("message", message);
+//		request.getSession().setAttribute("message", message);
+		message= (Float) session.getAttribute("message");
+		
+		Cookie c=new Cookie("username",username);
+		response.addCookie(c);
+		
 		if(logindb.validate(loginbean)) {
 			response.sendRedirect("LoginSuccess.jsp");
 		}
