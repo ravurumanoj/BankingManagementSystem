@@ -43,9 +43,17 @@
 		<tr><td>Enter Username: </td><td><input type="text" name="username" placeholder="Enter your Username" required></td></tr>
 		<tr><td>Enter Password: </td><td><input type="password" name="password" placeholder="Enter your Password" required></td></tr>
 		<tr><td></td><td><input type="submit" value="Login"></td></tr>
+		<%
+		if(request.getAttribute("loginResult") != null && "true".equals(request.getAttribute("loginResult").toString())) {
+			%>
+            	<p style="color: red">Either user name or password is wrong.</p> 
+            <%
+           }
+        %>
 		<tr><td colspan=2>Don't have an account</td></tr>
 		<tr><td colspan=2><a href="SignUp.jsp">Sign Up</a></td></tr>
 		</table>
+		<%-- <b>${error}</b> --%>
 		</form>
 	</div>
 </body>

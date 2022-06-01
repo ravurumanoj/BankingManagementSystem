@@ -1,5 +1,6 @@
 package login.database;
 
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -10,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 //import java.sql.Statement;
+import java.util.Base64;
 
+import jakarta.servlet.RequestDispatcher;
 import login.bean.LoginBean;
 
 public class LoginDb {
@@ -67,7 +70,21 @@ public class LoginDb {
 	    	 System.out.println("Exception thrown for incorrect algorithm: " + e);  
 	     }
 		return password;
-	}   
+	}
+	public String decode(String str)  
+	{  
+		String res = null;   
+		Base64.Decoder decoder = Base64.getMimeDecoder();  
+	    res = new String(decoder.decode(str));    
+		return res;
+	} 
+	public String encode(String str) throws NoSuchAlgorithmException  
+	{  
+		String res = null;
+		Base64.Encoder encoder = Base64.getMimeEncoder();    
+		res = encoder.encodeToString(str.getBytes());
+		return res;
+	} 
 	public int insert(LoginBean signupbean)
 	{		
 		loadDriver(dbDriver);
@@ -155,7 +172,7 @@ public class LoginDb {
 					ps.setFloat(1, ubal);
 					ps.setString(2, loginbean.getUsername());
 					int rs2 = ps.executeUpdate();
-					
+					status=true;
 					ps = con.prepareStatement(rbalance);
 					ps.setString(1, loginbean.getRusername());
 					ResultSet rs1 = ps.executeQuery();
@@ -168,7 +185,9 @@ public class LoginDb {
 						int rs3 = ps.executeUpdate();
 					}
 				}
-				
+				else {
+					status=false;
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

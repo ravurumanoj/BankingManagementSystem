@@ -1,7 +1,8 @@
 package login.web;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
+//import jakarta.servlet.http.Cookie;
 //import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,7 +12,9 @@ import login.bean.LoginBean;
 import login.database.LoginDb;
 
 import java.io.IOException;
-import java.net.URLEncoder;
+//import java.io.PrintWriter;
+//import java.net.URLEncoder;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 /**
@@ -44,21 +47,20 @@ public class TransferServlet extends HttpServlet {
 		String rusername= request.getParameter("rusername");
 		Float amount=Float.parseFloat(request.getParameter("amount"));
 		
-		LoginServlet obj = new LoginServlet();
-//		System.out.println(obj.username+"456");
-		String username=obj.username;
+		//		System.out.println(obj.username+"456");
+		String username=LoginServlet.username;
 		
 		LoginBean loginbean=new LoginBean();
 		loginbean.setRusername(rusername);
 		loginbean.setUsername(username);
 		loginbean.setAmount(amount);
 		
-		Cookie c=new Cookie("rusername",rusername);
-		Cookie c2=new Cookie("username",username);
-		Cookie c3=new Cookie("amount",amount+"");
-		response.addCookie(c);
-		response.addCookie(c2);
-		response.addCookie(c3);
+//		Cookie c=new Cookie("rusername",rusername);
+//		Cookie c2=new Cookie("username",username);
+//		Cookie c3=new Cookie("amount",amount+"");
+//		response.addCookie(c);
+//		response.addCookie(c2);
+//		response.addCookie(c3);
 //		String u = null;
 //		Cookie cookies[]=request.getCookies();
 //		for(Cookie co:cookies)
@@ -68,23 +70,38 @@ public class TransferServlet extends HttpServlet {
 //		}
 //		System.out.println(u);
 		LoginDb logindb=new LoginDb();
+//		try {
+//			rusername=logindb.encode(rusername);
+//		} catch (NoSuchAlgorithmException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		loginbean.setRusername(rusername);
 		
-		if(logindb.validatetransfer(loginbean)){
-			try {
-				logindb.addAmount(loginbean);
+		try {
+			if(logindb.validatetransfer(loginbean)&&logindb.addAmount(loginbean)){
+				/* logindb.addAmount(loginbean); */
 				Float message = logindb.ubalance(loginbean);
 				HttpSession session=request.getSession();	
 				session.setAttribute("message", message);
+//				System.out.println(message1);
 				response.sendRedirect("LoginSuccess.jsp");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			
-		}
-		else {
-			SQLException sqlException = new SQLException();
-			sqlException.printStackTrace();
+			else{
+//			SQLException sqlException = new SQLException();
+//			sqlException.printStackTrace();
+//				RequestDispatcher rd = getServletContext().getRequestDispatcher("/LoginSuccess.jsp");
+//				PrintWriter out= response.getWriter();
+//				out.println("<font color=red>Enter a Valid Receiver username</font>");
+//				rd.include(request, response);
+				
+				request.setAttribute("transferResult", true);
+		        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/LoginSuccess.jsp");
+		        requestDispatcher.forward(request, response);
+			}
+		} catch (SQLException | IOException | ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

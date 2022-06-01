@@ -1,7 +1,7 @@
 package login.web;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
+//import jakarta.servlet.http.Cookie;
 //import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +10,7 @@ import login.bean.LoginBean;
 import login.database.LoginDb;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Servlet implementation class SignupServlet
@@ -51,12 +52,22 @@ public class SignupServlet extends HttpServlet {
 		
 		password=logindb.hash(signupbean);
 		signupbean.setPassword(password);
+		signupbean.setUsername(username);
+//		try {
+//			username=logindb.encode(username);
+//			signupbean.setUsername(username);
+//		} catch (NoSuchAlgorithmException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		logindb.insert(signupbean);
 		
-		Cookie c=new Cookie("username",username);
-		Cookie c2=new Cookie("contactno",contactno);
-		response.addCookie(c);
-		response.addCookie(c2);
+//		Cookie c=new Cookie("username",username);
+//		Cookie c1=new Cookie("password",password);
+//		Cookie c2=new Cookie("contactno",contactno);
+//		response.addCookie(c);
+//		response.addCookie(c1);
+//		response.addCookie(c2);
 		
 		response.sendRedirect("SignUp.jsp");
 

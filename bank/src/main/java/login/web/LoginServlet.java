@@ -1,5 +1,6 @@
 package login.web;
 
+import jakarta.servlet.RequestDispatcher;
 //import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -12,6 +13,10 @@ import login.bean.LoginBean;
 import login.database.LoginDb;
 
 import java.io.IOException;
+//import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.UUID;
 //import java.net.URLEncoder;
 
 /**
@@ -53,23 +58,99 @@ public class LoginServlet extends HttpServlet {
 		loginbean.setPassword(password);
 		
 		LoginDb logindb=new LoginDb();
-		Float message = logindb.ubalance(loginbean);
+		
 		password=logindb.hash(loginbean);
 		loginbean.setPassword(password);
-//		System.out.println(message);
-		HttpSession session=request.getSession();
-		session.setAttribute("message", message);
-//		request.getSession().setAttribute("message", message);
-		message= (Float) session.getAttribute("message");
+//		loginbean.setUsername(username);
 		
-		Cookie c=new Cookie("username",username);
-		response.addCookie(c);
+//		try {
+//			username=logindb.encode(username);
+//			loginbean.setUsername(username);
+//		} catch (NoSuchAlgorithmException e) {
+//			e.printStackTrace();
+//		}
+		
+//		byte[] seed = "this is a key".getBytes();
+//		
+//		SecureRandom sr=new SecureRandom();
+////		long seed = 1; 
+//		sr.setSeed(seed);
+//		int value=sr.nextInt(1000);
+//		String key=Double.toString(value).substring(2);
+//		String user="manoj";
+//		String fullClassName=this.getClass().getName();
+//		String testcasenumber=fullClassName.substring(fullClassName.lastIndexOf('.')+1+"BenchmarkTest".length());
+//		System.out.println(testcasenumber);
+//		user +=testcasenumber;
+//		String cookieName="rememberme"+testcasenumber;
+//		System.out.println(cookieName);
+//		jakarta.servlet.http.Cookie rememberme=new jakarta.servlet.http.Cookie(cookieName,key);
+//		rememberme.setSecure(true);
+//		rememberme.setPath(request.getRequestURI());
+//		System.out.println(rememberme);
+//		request.getSession().setAttribute(cookieName, rememberme);
+//		response.addCookie(rememberme);
+//		
+		UUID uuid = UUID.randomUUID();
+//        String username = uuid.toString();
+//        UUID uuid1 = UUID.randomUUID();
+//        String pass = uuid1.toString();
+//        
+//        Cookie loginCookie = new Cookie("username",user);
+//		Cookie passw = new Cookie("password",pass);
+//		loginCookie.setMaxAge(10*60);
+//		response.addCookie(loginCookie);
+//		response.addCookie(passw);
+		
+//		Cookie loginCookie = new Cookie("username",username);
+		
+//		Cookie passw = new Cookie("password",password);
+		
+//		loginCookie.setMaxAge(10*60);
+//		response.addCookie(loginCookie);
+		
+//		response.addCookie(passw);
+//		System.out.println(message);
+		Float message = logindb.ubalance(loginbean);
+		
+//		HttpSession session=request.getSession();
+//		session.setAttribute("username", username);
+//		String stateInSession = (String) session.getAttribute("username");
+//		System.out.println(stateInSession);
+		
+//		Cookie loginCookie = new Cookie("username",username);
+//		loginCookie.setMaxAge(10*60);
+//		response.addCookie(loginCookie);
+		HttpSession session = request.getSession();
+		session.setAttribute("message", message);
+//		String message1=logindb.decode(username);
+		request.getSession().setAttribute("message", message);
+		message= (Float) session.getAttribute("message");
+		String message1=username;
+		session.setAttribute("message1", message1);
+//		System.out.println(username);
+//		System.out.println(password);
+//		System.out.println(logindb.validate(loginbean));
 		
 		if(logindb.validate(loginbean)) {
-			response.sendRedirect("LoginSuccess.jsp");
+			
+			session.setAttribute("username", username);
+			//setting session to expiry in 30 mins
+			session.setMaxInactiveInterval(30*60);
+			Cookie userName = new Cookie("username",uuid.toString());
+			userName.setMaxAge(30*60);
+			response.addCookie(userName);
+			response.sendRedirect("LoginSuccess.jsp");	
 		}
 		else {
-			response.sendRedirect("LoginPage.jsp");
+//			RequestDispatcher rd = getServletContext().getRequestDispatcher("/LoginPage.jsp");
+//			PrintWriter out= response.getWriter();
+//			out.println("<font color=red>Either user name or password is wrong.</font>");
+//			rd.include(request, response);
+			
+			request.setAttribute("loginResult", true);
+	        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/LoginPage.jsp");
+	        requestDispatcher.forward(request, response);
 		}
 		
 	}
